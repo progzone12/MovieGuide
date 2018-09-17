@@ -15,6 +15,9 @@ public interface SortingDialogPresenter
 
     void onNewestMoviesSelected();
 
+
+    void onUsersSelected();
+
     void setView(SortingDialogView view);
 
     void destroy();

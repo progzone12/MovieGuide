@@ -1,8 +1,11 @@
 package com.esoxjem.movieguide.listing;
 
 import android.support.annotation.NonNull;
+
 import com.esoxjem.movieguide.Movie;
 import com.esoxjem.movieguide.MoviesWraper;
+import com.esoxjem.movieguide.User;
+import com.esoxjem.movieguide.UserWrapper;
 import com.esoxjem.movieguide.favorites.FavoritesInteractor;
 import com.esoxjem.movieguide.listing.sorting.SortType;
 import com.esoxjem.movieguide.listing.sorting.SortingOptionStore;
@@ -50,8 +53,20 @@ class MoviesListingInteractorImpl implements MoviesListingInteractor {
             Calendar cal = Calendar.getInstance();
             String maxReleaseDate = dateFormat.format(cal.getTime());
             return tmdbWebService.newestMovies(maxReleaseDate, NEWEST_MIN_VOTE_COUNT).map(MoviesWraper::getMovieList);
+        } else if (selectedOption == SortType.USERS.getValue()) {
+            return tmdbWebService.popularUser(page).map(UserWrapper::getUserList);
         } else {
             return Observable.just(favoritesInteractor.getFavorites());
+        }
+    }
+
+    @Override
+    public Observable<List<User>> fetchUser(int page) {
+        int selectedOption = sortingOptionStore.getSelectedOption();
+        if (selectedOption == SortType.USERS.getValue()) {
+            return tmdbWebService.popularUser(page).map(UserWrapper::getUserList);
+        } else {
+         return null;
         }
     }
 

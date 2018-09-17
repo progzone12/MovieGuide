@@ -41,6 +41,9 @@ class SortingDialogPresenterImpl implements SortingDialogPresenter
             } else if (selectedOption == SortType.NEWEST.getValue())
             {
                 view.setNewestChecked();
+            } else if (selectedOption == SortType.USERS.getValue())
+            {
+                view.setUsersChecked();
             } else
             {
                 view.setFavoritesChecked();
@@ -92,4 +95,16 @@ class SortingDialogPresenterImpl implements SortingDialogPresenter
             view.dismissDialog();
         }
     }
+
+    @Override
+    public void onUsersSelected()
+    {
+        if (isViewAttached())
+        {
+            sortingDialogInteractor.setSortingOption(SortType.USERS);
+            view.dismissDialog();
+        }
+    }
+
+
 }

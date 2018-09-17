@@ -48,7 +48,8 @@ public class NetworkModule {
     Retrofit retrofit(OkHttpClient okHttpClient) {
         return new Retrofit
                 .Builder()
-                .baseUrl(BuildConfig.TMDB_BASE_URL)
+//                .baseUrl(BuildConfig.TMDB_BASE_URL)
+                .baseUrl("https://jsonplaceholder.typicode.com")
                 .addConverterFactory(MoshiConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .client(okHttpClient)

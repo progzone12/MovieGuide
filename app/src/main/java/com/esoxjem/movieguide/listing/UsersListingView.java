@@ -1,17 +1,13 @@
 package com.esoxjem.movieguide.listing;
 
-import com.esoxjem.movieguide.Movie;
 import com.esoxjem.movieguide.User;
 
 import java.util.List;
 
-/**
- * @author arun
- */
-interface MoviesListingView
-{
-    void showMovies(List<Movie> movies);
+interface UsersListingView {
+
+    void showUsers(List<User> users);
     void loadingStarted();
     void loadingFailed(String errorMessage);
-    void onMovieClicked(Movie movie);
+    void onUserClicked(User user);
 }

@@ -60,6 +60,13 @@ public class SortingDialogPresenterImplTest {
         verify(view).setNewestChecked();
     }
 
+    @Test
+    public void shouldCheckUsersIfLastSavedOptionIsUsers() throws Exception {
+        when(interactor.getSelectedSortingOption()).thenReturn(SortType.USERS.getValue());
+        presenter.setLastSavedOption();
+        verify(view).setUsersChecked();
+    }
+
 
     @Test
     public void onPopularMoviesSelected() throws Exception {

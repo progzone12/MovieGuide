@@ -2,6 +2,7 @@ package com.esoxjem.movieguide.network;
 
 import com.esoxjem.movieguide.MoviesWraper;
 import com.esoxjem.movieguide.ReviewsWrapper;
+import com.esoxjem.movieguide.UserWrapper;
 import com.esoxjem.movieguide.VideoWrapper;
 
 import retrofit2.http.GET;
@@ -32,5 +33,13 @@ public interface TmdbWebService {
 
     @GET("3/search/movie?language=en-US&page=1")
     Observable<MoviesWraper> searchMovies(@Query("query") String searchQuery);
+
+
+    @GET("/users")
+    Observable<UserWrapper> popularUser(@Query("page") int page);
+
+    @GET("/users/{userId}")
+    Observable<UserWrapper> searchUsers(@Path("userId") String userId);
+
 
 }

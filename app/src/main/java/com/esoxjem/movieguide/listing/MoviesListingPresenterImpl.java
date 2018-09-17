@@ -3,6 +3,7 @@ package com.esoxjem.movieguide.listing;
 import android.support.annotation.NonNull;
 
 import com.esoxjem.movieguide.Movie;
+import com.esoxjem.movieguide.User;
 import com.esoxjem.movieguide.util.EspressoIdlingResource;
 import com.esoxjem.movieguide.util.RxUtils;
 
@@ -23,6 +24,7 @@ class MoviesListingPresenterImpl implements MoviesListingPresenter {
     private Disposable movieSearchSubscription;
     private int currentPage = 1;
     private List<Movie> loadedMovies = new ArrayList<>();
+    private List<User> loadedUsers = new ArrayList<>();
     private boolean showingSearchResult = false;
 
     MoviesListingPresenterImpl(MoviesListingInteractor interactor) {
@@ -56,6 +58,20 @@ class MoviesListingPresenterImpl implements MoviesListingPresenter {
                     }
                 })
                 .subscribe(this::onMovieFetchSuccess, this::onMovieFetchFailed);
+    }
+
+    private void displayUsers() {
+        EspressoIdlingResource.increment();
+        showLoading();
+        fetchSubscription = moviesInteractor.fetchUsers(currentPage)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doFinally(() -> {
+                    if (!EspressoIdlingResource.getIdlingResource().isIdleNow()) {
+                        EspressoIdlingResource.decrement(); // Set app as idle.
+                    }
+                })
+                .subscribe(this::onUserFetchSuccess, this::onMovieFetchFailed);
     }
 
     private void displayMovieSearchResult(@NonNull final String searchText) {
@@ -123,6 +139,18 @@ class MoviesListingPresenterImpl implements MoviesListingPresenter {
     private void onMovieFetchFailed(Throwable e) {
         view.loadingFailed(e.getMessage());
     }
+//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+    private void onUserFetchSuccess(List<User> users) {
+        if (moviesInteractor.isPaginationSupported()) {
+            loadedUsers.addAll(users);
+        } else {
+            loadedUsers = new ArrayList<>(users);
+        }
+        if (isViewAttached()) {
+            view.showUsers(loadedUsers);
+        }
+    }
+
 
     private void onMovieSearchSuccess(List<Movie> movies) {
         loadedMovies.clear();

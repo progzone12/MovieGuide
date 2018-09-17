@@ -13,6 +13,8 @@ interface SortingDialogView
 
     void setFavoritesChecked();
 
+    void setUsersChecked();
+
     void dismissDialog();
 
 }

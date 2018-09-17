@@ -2,8 +2,6 @@ package com.esoxjem.movieguide.favorites;
 
 import com.esoxjem.movieguide.Movie;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
